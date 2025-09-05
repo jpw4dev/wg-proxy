@@ -71,5 +71,5 @@ class WGHandler(socketserver.BaseRequestHandler):
 
 if __name__ == "__main__":
     PEER_NAMES = load_peer_names();
-    with socketserver.TCPServer(('0.0.0.0', '51822'), WGHandler) as server:
+    with socketserver.TCPServer(('0.0.0.0', 51822), WGHandler) as server:
         server.serve_forever()
