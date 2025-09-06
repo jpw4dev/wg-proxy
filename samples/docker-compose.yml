@@ -1,0 +1,30 @@
+networks:
+  swag:
+    external: true
+
+services:
+  wireguard:
+    image: ghcr.io/jpw4dev/wg-proxy:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - swag
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Munich
+      - SERVERURL=wg.yourdomain.com
+      - SERVERPORT=51820
+      - PEERS=client1,client2,client3     
+      - INTERNAL_SUBNET=10.13.13.0
+      - ALLOWEDIPS=192.168.1.0/24,10.13.13.1
+      - LOG_CONFS=true
+    volumes:
+      - ./config:/config
+    ports:
+      - 51820:51820/udp
+      - 127.0.0.1:51822:51822/tcp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
